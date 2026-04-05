@@ -29,13 +29,13 @@ const categories = [
     label: 'HOODIES',
     sub: 'Zip-ups & Pullovers',
     href: '/hoodies',
-    image: 'https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=800',
+    image: 'https://images.unsplash.com/photo-1604644401890-0bd678c83788?w=800',
   },
   {
     label: 'PANTS',
     sub: 'Cargos & Joggers',
     href: '/pants',
-    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=800',
+    image: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=800',
   },
   {
     label: 'SHOES',
