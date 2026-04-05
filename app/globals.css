@@ -1,22 +1,51 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-bg: #0d0d0d;
+  --color-brand-bg: #0a0a0a;
   --color-brand-surface: #111111;
-  --color-brand-border: #222222;
+  --color-brand-surface-2: #161616;
+  --color-brand-border: #1e1e1e;
   --color-brand-accent: #e63946;
-  --color-brand-muted: #555555;
+  --color-brand-accent-dim: #e6394620;
+  --color-brand-muted: #444444;
+  --color-brand-muted-2: #666666;
   --color-brand-text: #f0f0f0;
 
   --font-family-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-
-  --letter-spacing-widest2: 0.2em;
 }
 
 @layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-brand-bg);
     color: var(--color-brand-text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-brand-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-brand-border);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-brand-accent);
+  }
+
+  ::selection {
+    background: var(--color-brand-accent);
+    color: white;
   }
 }
 
@@ -24,19 +53,19 @@
   .badge {
     display: inline-flex;
     align-items: center;
-    padding: 0.125rem 0.5rem;
-    font-size: 0.625rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
   }
   .badge-red {
     display: inline-flex;
     align-items: center;
-    padding: 0.125rem 0.5rem;
-    font-size: 0.625rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     background-color: var(--color-brand-accent);
     color: white;
@@ -44,26 +73,43 @@
   .badge-white {
     display: inline-flex;
     align-items: center;
-    padding: 0.125rem 0.5rem;
-    font-size: 0.625rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     background-color: white;
     color: black;
+  }
+  .badge-outline {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: 1px solid var(--color-brand-border);
+    color: var(--color-brand-muted-2);
   }
   .btn-primary {
     background-color: white;
     color: black;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 0.75rem 1.5rem;
-    transition: background-color 0.15s, color 0.15s;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    padding: 0.875rem 2rem;
+    transition: background-color 0.2s, color 0.2s, transform 0.15s;
+    display: inline-block;
   }
   .btn-primary:hover {
     background-color: var(--color-brand-accent);
     color: white;
+    transform: translateY(-1px);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
   }
   .btn-ghost {
     border: 1px solid var(--color-brand-border);
@@ -71,10 +117,73 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    padding: 0.75rem 1.5rem;
-    transition: border-color 0.15s;
+    font-size: 0.75rem;
+    padding: 0.875rem 2rem;
+    transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    display: inline-block;
   }
   .btn-ghost:hover {
     border-color: white;
+    color: white;
+    transform: translateY(-1px);
   }
+  .btn-accent {
+    background-color: var(--color-brand-accent);
+    color: white;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    padding: 0.875rem 2rem;
+    transition: opacity 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-accent:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 24s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Noise grain texture */
+.noise-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Line clamp */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+/* Hide scrollbar but keep scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
