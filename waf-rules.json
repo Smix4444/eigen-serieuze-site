@@ -1,0 +1,32 @@
+{
+  "rules": [
+    {
+      "id": "block-bad-bots-api",
+      "description": "Block non-browser user agents on API routes",
+      "expression": "(http.request.uri.path matches \"^/api/\") and not (http.user_agent contains \"Mozilla\")",
+      "action": "block"
+    },
+    {
+      "id": "block-anonymizer-proxies",
+      "description": "Block Tor exit nodes and anonymizer proxies",
+      "expression": "(cf.client.bot) or (ip.src in $cf.anonymizer_proxies)",
+      "action": "block"
+    },
+    {
+      "id": "challenge-checkout-high-risk",
+      "description": "Managed challenge on checkout from high-risk geos",
+      "expression": "(ip.geoip.country in {\"CN\" \"RU\" \"KP\"}) and (http.request.uri.path matches \"^/api/checkout\")",
+      "action": "managed_challenge"
+    }
+  ],
+  "rate_limits": [
+    {
+      "id": "global-api-rate-limit",
+      "expression": "http.request.uri.path matches \"^/api/\"",
+      "threshold": 100,
+      "period": 10,
+      "action": "block",
+      "timeout": 60
+    }
+  ]
+}
