@@ -1,8 +1,22 @@
 'use client'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
+
+function CatImage({ src, alt }: { src: string; alt: string }) {
+  const [err, setErr] = useState(false)
+  if (err) return <div className="absolute inset-0 bg-[var(--color-brand-surface-2)]" />
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      className="object-cover opacity-50 group-hover:opacity-75 group-hover:scale-110 transition-all duration-700"
+      onError={() => setErr(true)}
+    />
+  )
+}
 
 const categories = [
   {
@@ -63,12 +77,7 @@ export default function CategoryGrid() {
             transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
             <Link href={cat.href} className="group relative block overflow-hidden aspect-[2/3] bg-[var(--color-brand-surface)]">
-              <Image
-                src={cat.image}
-                alt={cat.label}
-                fill
-                className="object-cover opacity-50 group-hover:opacity-75 group-hover:scale-110 transition-all duration-700"
-              />
+              <CatImage src={cat.image} alt={cat.label} />
               {/* Gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
