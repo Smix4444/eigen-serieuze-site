@@ -3,13 +3,19 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import MarqueeStrip from '@/components/ui/MarqueeStrip'
 
-const fadeUp = {
-  hidden: { y: 40, opacity: 0 },
-  show: (delay = 0) => ({
-    y: 0,
-    opacity: 1,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay },
-  }),
+const ease = [0.22, 1, 0.36, 1] as const
+
+function FadeUp({ delay, children, className }: { delay: number; children: React.ReactNode; className?: string }) {
+  return (
+    <motion.div
+      className={className}
+      initial={{ y: 40, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.7, ease, delay }}
+    >
+      {children}
+    </motion.div>
+  )
 }
 
 export default function HeroSection() {
@@ -17,10 +23,11 @@ export default function HeroSection() {
     <section className="relative flex flex-col bg-[var(--color-brand-bg)] overflow-hidden noise-bg">
       {/* Vertical red accent line */}
       <motion.div
-        className="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--color-brand-accent)] origin-top"
+        className="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--color-brand-accent)]"
+        style={{ originY: 0 }}
         initial={{ scaleY: 0 }}
         animate={{ scaleY: 1 }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+        transition={{ duration: 1.2, ease, delay: 0.1 }}
       />
 
       {/* Grid line overlay */}
@@ -38,22 +45,16 @@ export default function HeroSection() {
 
         {/* Top row: badge + stats */}
         <div className="flex items-center justify-between mb-12 md:mb-16">
-          <motion.div custom={0.2} variants={fadeUp} initial="hidden" animate="show">
+          <FadeUp delay={0.2}>
             <span className="badge-red">NEW DROP — SS26</span>
-          </motion.div>
-          <motion.div
-            custom={0.3}
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            className="hidden md:flex items-center gap-6 text-[10px] font-bold tracking-widest uppercase text-[var(--color-brand-muted)]"
-          >
+          </FadeUp>
+          <FadeUp delay={0.3} className="hidden md:flex items-center gap-6 text-[10px] font-bold tracking-widest uppercase text-[var(--color-brand-muted)]">
             <span>28 Products</span>
             <span className="w-[1px] h-3 bg-[var(--color-brand-border)]" />
             <span>4 Categories</span>
             <span className="w-[1px] h-3 bg-[var(--color-brand-border)]" />
             <span>Free Ship $150+</span>
-          </motion.div>
+          </FadeUp>
         </div>
 
         {/* Giant title */}
@@ -63,39 +64,33 @@ export default function HeroSection() {
             style={{ fontSize: 'clamp(5rem, 18vw, 18rem)', letterSpacing: '-0.03em' }}
             initial={{ y: 120, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+            transition={{ duration: 0.9, ease, delay: 0.15 }}
           >
             VAULT
           </motion.h1>
         </div>
 
         {/* Divider with tagline */}
-        <motion.div
-          className="flex items-center gap-6 mb-12"
-          custom={0.5}
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-        >
+        <FadeUp delay={0.5} className="flex items-center gap-6 mb-12">
           <div className="flex-1 h-[1px] bg-[var(--color-brand-border)]" />
           <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-[var(--color-brand-muted)] whitespace-nowrap">
             Streetwear / Urban / Drop Culture
           </span>
           <div className="flex-1 h-[1px] bg-[var(--color-brand-border)]" />
-        </motion.div>
+        </FadeUp>
 
         {/* CTA row */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-20">
-          <motion.div custom={0.65} variants={fadeUp} initial="hidden" animate="show">
+          <FadeUp delay={0.65}>
             <Link href="/hoodies" className="btn-primary">
               SHOP THE DROP
             </Link>
-          </motion.div>
-          <motion.div custom={0.75} variants={fadeUp} initial="hidden" animate="show">
+          </FadeUp>
+          <FadeUp delay={0.75}>
             <Link href="/tshirts" className="btn-ghost">
               BROWSE ALL
             </Link>
-          </motion.div>
+          </FadeUp>
         </div>
       </div>
 
